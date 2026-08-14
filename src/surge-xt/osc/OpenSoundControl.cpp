@@ -1407,6 +1407,10 @@ void OpenSoundControl::sendAllParams()
             {
                 sendMacro(i, false);
             }
+            juce::OSCMessage complete = juce::OSCMessage(
+                juce::OSCAddressPattern(juce::String("/q/all_params/done")));
+            complete.addFloat32((float)n);
+            send(complete, false);
             // delete timer;    // This prints the elapsed time
         });
     }

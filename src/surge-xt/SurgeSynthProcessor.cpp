@@ -162,6 +162,12 @@ SurgeSynthProcessor::SurgeSynthProcessor()
         if (port > 0)
             initOSCIn(port);
     }
+    if (const auto *portText = std::getenv("GROOVEBOX_SURGE_OSC_OUT_PORT"))
+    {
+        const auto port = std::atoi(portText);
+        if (port > 0)
+            initOSCOut(port, "127.0.0.1");
+    }
 }
 
 SurgeSynthProcessor::~SurgeSynthProcessor()
