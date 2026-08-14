@@ -29,6 +29,7 @@
 #include "UserDefaults.h"
 #include "UnitConversions.h"
 #include <any>
+#include <cstdlib>
 
 #if LINUX
 // getCurrentPosition is deprecated in J7
@@ -155,6 +156,12 @@ SurgeSynthProcessor::SurgeSynthProcessor()
 
     midiKeyboardState.addListener(this);
     oscHandler.initOSC(this, surge);
+    if (const auto *portText = std::getenv("GROOVEBOX_SURGE_OSC_PORT"))
+    {
+        const auto port = std::atoi(portText);
+        if (port > 0)
+            initOSCIn(port);
+    }
 }
 
 SurgeSynthProcessor::~SurgeSynthProcessor()
