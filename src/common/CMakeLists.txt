@@ -307,6 +307,10 @@ if(APPLE)
     "-framework CoreFoundation"
     "-framework Foundation"
   )
+elseif(ANDROID)
+  # Android's pthread functions are in libc; there is no libpthread.
+  target_compile_definitions(${PROJECT_NAME} PUBLIC LINUX=1)
+  target_link_libraries(${PROJECT_NAME} PUBLIC surge::simde)
 elseif(UNIX)
   target_compile_definitions(${PROJECT_NAME} PUBLIC LINUX=1)
 

@@ -205,6 +205,13 @@ SurgeStorage::SurgeStorage(const SurgeStorage::SurgeStorageConfig &config) : oth
     // These are how I test a broken windows install for documents
     // userDataPath = fs::path{"/good/luck/bozo"};
     // userDataPath = fs::path{"/usr/sbin"};
+#elif defined(__ANDROID__)
+    // The host extracts APK assets and supplies an app-private absolute path.
+    // Android has no desktop HOME/XDG documents or system Surge installation.
+    if (!hasSuppliedDataPath)
+        throw std::runtime_error("Android Surge requires an extracted factory data path");
+    datapath = fs::path{suppliedDataPath};
+    userDataPath = datapath.parent_path() / "SurgeXTUserData";
 #elif LINUX
     const auto installPath = sst::plugininfra::paths::sharedLibraryBinaryPath().parent_path();
 

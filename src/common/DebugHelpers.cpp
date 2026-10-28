@@ -25,7 +25,7 @@
 #include "windows.h"
 #endif
 
-#if MAC || LINUX
+#if (MAC || LINUX) && !defined(__ANDROID__)
 #include <execinfo.h>
 #include <stdio.h>
 #include <cstdlib>
@@ -85,7 +85,7 @@ bool Surge::Debug::toggleConsole()
 
 void Surge::Debug::stackTraceToStdout(int depth)
 {
-#if MAC || LINUX
+#if (MAC || LINUX) && !defined(__ANDROID__)
     void *callstack[128];
     int i, frames = backtrace(callstack, 128);
     char **strs = backtrace_symbols(callstack, frames);
